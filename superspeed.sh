@@ -9,55 +9,9 @@ PURPLE="\033[0;35m"
 CYAN='\033[0;36m'
 PLAIN='\033[0m'
 
-checkroot(){
-	[[ $EUID -ne 0 ]] && echo -e "${RED}请使用 root 用户运行本脚本！${PLAIN}" && exit 1
-}
-
-checksystem() {
-	if [ -f /etc/redhat-release ]; then
-	    release="centos"
-	elif cat /etc/issue | grep -Eqi "debian"; then
-	    release="debian"
-	elif cat /etc/issue | grep -Eqi "ubuntu"; then
-	    release="ubuntu"
-	elif cat /etc/issue | grep -Eqi "centos|red hat|redhat"; then
-	    release="centos"
-	elif cat /proc/version | grep -Eqi "debian"; then
-	    release="debian"
-	elif cat /proc/version | grep -Eqi "ubuntu"; then
-	    release="ubuntu"
-	elif cat /proc/version | grep -Eqi "centos|red hat|redhat"; then
-	    release="centos"
-	fi
-}
 
 
 
-checkcurl() {
-	if  [ ! -e '/usr/bin/curl' ]; then
-	        echo "正在安装 Curl"
-	            if [ "${release}" == "centos" ]; then
-	                yum update > /dev/null 2>&1
-	                yum -y install curl > /dev/null 2>&1
-	            else
-	                apt-get update > /dev/null 2>&1
-	                apt-get -y install curl > /dev/null 2>&1
-	            fi
-	fi
-}
-
-checkwget() {
-	if  [ ! -e '/usr/bin/wget' ]; then
-	        echo "正在安装 Wget"
-	            if [ "${release}" == "centos" ]; then
-	                yum update > /dev/null 2>&1
-	                yum -y install wget > /dev/null 2>&1
-	            else
-	                apt-get update > /dev/null 2>&1
-	                apt-get -y install wget > /dev/null 2>&1
-	            fi
-	fi
-}
 
 checkspeedtest() {
 	if  [ ! -e './speedtest-cli/speedtest' ]; then
@@ -386,10 +340,6 @@ runtest() {
 }
 
 runall() {
-	checkroot;
-	checksystem;
-	checkcurl;
-	checkwget;
 	checkspeedtest;
 	clear
 	speed_test;
