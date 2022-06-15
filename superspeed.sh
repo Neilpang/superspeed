@@ -346,7 +346,7 @@ runall() {
 	preinfo;
 	selecttest;
 	runtest;
-	rm -rf speedtest*
+	
 }
 
 runall
